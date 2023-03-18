@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "508094225848",
+    "project_id": "notesapptutorial-90f11",
+    "storage_bucket": "notesapptutorial-90f11.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:508094225848:android:da4b895d5077377b19034d",
+        "android_client_info": {
+          "package_name": "com.shalini.keepnotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "508094225848-em5ovb2t0ik2c8qov13mra9lrchdlucn.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBDd3Fb5LmUb67w4VihU1L0fhmDdFsa_ok"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "508094225848-em5ovb2t0ik2c8qov13mra9lrchdlucn.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
