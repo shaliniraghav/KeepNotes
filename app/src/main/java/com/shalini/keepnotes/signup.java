@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -17,12 +18,12 @@ import com.google.firebase.auth.AuthResult;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
 
+import org.w3c.dom.Text;
+
 public class signup extends AppCompatActivity {
-
-
     private EditText msignupemail,msignuppassword;
-    private TextView mtextView3,mtextView2;
-    private Button msignup;
+    private Button mbtnsignup;
+    private TextView mgotologin;
 
     private FirebaseAuth firebaseAuth;
 
@@ -33,83 +34,72 @@ public class signup extends AppCompatActivity {
 
         getSupportActionBar().hide();
 
-        msignupemail=findViewById(R.id.signupemail);
-        msignuppassword=findViewById(R.id.signuppassword);
-        mtextView3=findViewById(R.id.textView3);
-        mtextView2=findViewById(R.id.textView2);
-        msignup=findViewById(R.id.signup);
+        msignupemail=findViewById(R.id.textsignupemail);
+        msignuppassword=findViewById(R.id.textsignuppassword);
+        mbtnsignup=findViewById(R.id.btnsignup);
+        mgotologin=findViewById(R.id.gotologin);
 
         firebaseAuth=FirebaseAuth.getInstance();
 
+        mgotologin.setOnClickListener(new View.OnClickListener() {
 
-        mtextView3.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(View v) {
+            public void onClick(View view) {
                 Intent intent=new Intent(signup.this,MainActivity.class);
                 startActivity(intent);
             }
         });
-    //using this code we are registering the user and creating an account on firebase
-        msignup.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+//phone connect kro aapka ha
+        mbtnsignup.setOnClickListener(new View.OnClickListener() {
 
-                String mail= msignupemail.getText().toString().trim();
+            @Override
+            public void onClick(View view) {
+                String mail=msignupemail.getText().toString().trim();
                 String password=msignuppassword.getText().toString().trim();
 
-                if(mail.isEmpty() || password.isEmpty())
-                {
-                    Toast.makeText(getApplicationContext(),"All fIelds are Required",Toast.LENGTH_SHORT).show();
-                } else if (password.length()<7) {
-                    Toast.makeText(getApplicationContext(),"password Should Greater than 7 digits" ,Toast.LENGTH_SHORT).show();
-                }
-                else
-                {
-                    /// ragister the user to firebase
+                if(mail.isEmpty() || password.isEmpty()){
+                    Toast.makeText(getApplicationContext(), "All fields are required..", Toast.LENGTH_SHORT).show();
+                }else if(password.length()<7){
+                    Toast.makeText(getApplicationContext(), "Password should greater than 7", Toast.LENGTH_SHORT).show();
+                }else{
 
                     firebaseAuth.createUserWithEmailAndPassword(mail,password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                         @Override
                         public void onComplete(@NonNull Task<AuthResult> task) {
 
-                            if(task.isSuccessful())
-                            {
-                               Toast.makeText(getApplicationContext(),"Registration Successfull",Toast.LENGTH_SHORT).show();
-                               sendEmailVerification();
-                            }
-                            else
-                            {
-                                Toast.makeText(getApplicationContext(),"Failed To Register=",Toast.LENGTH_SHORT).show();
+                            if(task.isSuccessful()){
+                                Toast.makeText(getApplicationContext(), "Registrstion Successful", Toast.LENGTH_SHORT).show();
+                                sendEmailVerfication();
+                            }else{
+                                Toast.makeText(getApplicationContext(), "Failed to register", Toast.LENGTH_SHORT).show();
                             }
                         }
                     });
 
-
                 }
+
             }
+
         });
     }
-//  rp53563@gmail.com
     //send email verification
-    private void sendEmailVerification()
-    {
+
+    private void sendEmailVerfication(){
         FirebaseUser firebaseUser=firebaseAuth.getCurrentUser();
+
         if(firebaseUser!=null){
             firebaseUser.sendEmailVerification().addOnCompleteListener(new OnCompleteListener<Void>() {
                 @Override
                 public void onComplete(@NonNull Task<Void> task) {
-                    Toast.makeText(getApplicationContext(),"Verification Email is Sent,Verify and Log In Again",Toast.LENGTH_SHORT).show();
+                    Toast.makeText(getApplicationContext(), "Verification Email is sent,Verify and Login Again", Toast.LENGTH_SHORT).show();
                     firebaseAuth.signOut();
                     finish();
                     startActivity(new Intent(signup.this,MainActivity.class));
                 }
             });
-        }
-
-        else
-        {
-            Toast.makeText(getApplicationContext(),"Failed To Send Verification Email",Toast.LENGTH_SHORT).show();
+        }else{
+            Toast.makeText(getApplicationContext(), "Failed to send verification email", Toast.LENGTH_SHORT).show();
         }
     }
-
 
 }
